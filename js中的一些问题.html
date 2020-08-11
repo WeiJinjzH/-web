@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 变量提升 */
+        // console.log(a) // undefined
+        // var a = 12
+        // a = 13
+        // console.log(a) // 13
+
+        // console.log(a) // 报错 变量提升
+        // let a = 12
+        // a = 13
+        // console.log(a) // 报错之后不会执行
+
+
+        // console.log(a) // a未定义
+        // a = 13
+        // console.log(a)
+
+        /* 重复声明 */
+        var a = 12
+        var a = 13
+        console.log(a) // 13
+
+        let a = 12
+        let a = 13
+        console.log(a) // 报错  Identifier 'a' has already been declared
+    </script>
+</body>
+</html>
