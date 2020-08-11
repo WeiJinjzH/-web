@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img-box {
+            position: relative;
+            float: left;
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+        }
+        .img-box img {
+            width: 100%;
+            height: 100%;
+        }
+        .mask {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="img-box">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596453650539&di=d1e462a334203f13be1e9d9b7b08881b&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F02%2F65%2F72%2F045788984fb6c83.jpg" alt="" />
+            <div class="mask"></div>
+        </div>
+        <div class="img-box">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596453650539&di=d1e462a334203f13be1e9d9b7b08881b&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F02%2F65%2F72%2F045788984fb6c83.jpg" alt="" />
+            <div class="mask"></div>
+        </div>
+        <div class="img-box">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596453650539&di=d1e462a334203f13be1e9d9b7b08881b&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F02%2F65%2F72%2F045788984fb6c83.jpg" alt="" />
+            <div class="mask"></div>
+        </div>
+        <div class="img-box">
+            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596453650539&di=d1e462a334203f13be1e9d9b7b08881b&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Fback_pic%2F02%2F65%2F72%2F045788984fb6c83.jpg" alt="" />
+            <div class="mask"></div>
+        </div>
+    </div>
+    <script>
+        document.onmouseover = function(e) {
+            if (e.target.nodeName === 'IMG') {
+                // 进入这个条件说明e.target 是 IMG
+
+                // 获取父级元素
+                let imgBox = e.target.parentNode
+                // 获取mask元素
+                let mask = e.target.nextElementSibling
+                // 获取 img-box 的位置
+                imgBox.sTop = imgBox.offsetTop
+                imgBox.sLeft = imgBox.offsetLeft
+                imgBox.sBottom = imgBox.offsetTop + imgBox.offsetHeight
+                imgBox.sRight = imgBox.offsetLeft + imgBox.offsetWidth
+
+                // 鼠标滑入
+                imgBox.onmouseenter = function moveIn(e) {
+                    let top = Math.abs(e.pageY - imgBox.sTop)
+                    let bottom = Math.abs(e.pageY - imgBox.sBottom)
+                    let left = Math.abs(e.pageX - imgBox.sLeft)
+                    let right = Math.abs(e.pageX - imgBox.sRight)
+                    // 取四个方向的最小值
+                    let min = Math.min(top, bottom, left, right)
+
+                    switch (min) {
+                        case top:
+                            maskIn('top')
+                            break
+                        case bottom:
+                            maskIn('bottom')
+                            break
+                        case left:
+                            maskIn('left')
+                            break
+                        case right:
+                            maskIn('right')
+                            break
+                    }
+                }
+
+                // mask 动画进入
+                function maskIn(direction) {
+                    console.log(direction)
+                    let attr, otherAttr, max, step
+                    // 如果鼠标从左边滑进来 我们要控制mask的marginLeft 值是imgBox.offsetWidth
+                    if (direction === 'left' || direction === 'right') {
+                        attr = 'marginLeft'
+                        otherAttr = 'marginTop'
+                        max = 'offsetWidth'
+                    } else {
+                        attr = 'marginTop'
+                        otherAttr = 'marginLeft'
+                        max = 'affsetHeight'
+                    }
+
+                    if (direction === 'top' || direction === 'left') {
+                        // 如果是从上面或者从左边划入的话 它的值是一个负值
+                        step = 15
+                    } else {
+                        step = -15
+                    }
+
+                    mask.style.display = 'block'
+                    // 通过步数来区分要设置正的值还是负的值
+                    step > 0 ? mask.style[attr] = -imgBox[max] + 'px' : mask.style[attr] = imgBox[max] + 'px'
+
+                    clearInterval(mask.timer)
+                    mask.timer = setInterval(() => {
+                        let span
+                        span = mask.style[attr] + step
+                        mask.style[attr] = span + 'px'
+                    }, 40)
+                }
+            }
+        }
+    </script>
+</body>
+</html>
