@@ -6,6 +6,7 @@
     <title>Document</title>
     <style>
         .img-box {
+            overflow: hidden;
             position: relative;
             float: left;
             width: 200px;
@@ -86,9 +87,33 @@
                     }
                 }
 
+                // 鼠标滑出
+                imgBox.onmouseleave = function moveOut(e) {
+                    let top = Math.abs(e.pageY - imgBox.sTop)
+                    let bottom = Math.abs(e.pageY - imgBox.sBottom)
+                    let left = Math.abs(e.pageX - imgBox.sLeft)
+                    let right = Math.abs(e.pageX - imgBox.sRight)
+                    // 取四个方向的最小值
+                    let min = Math.min(top, bottom, left, right)
+
+                    switch (min) {
+                        case top:
+                            maskOut('top')
+                            break
+                        case bottom:
+                            maskOut('bottom')
+                            break
+                        case left:
+                            maskOut('left')
+                            break
+                        case right:
+                            maskOut('right')
+                            break
+                    }
+                }
+
                 // mask 动画进入
                 function maskIn(direction) {
-                    console.log(direction)
                     let attr, otherAttr, max, step
                     // 如果鼠标从左边滑进来 我们要控制mask的marginLeft 值是imgBox.offsetWidth
                     if (direction === 'left' || direction === 'right') {
@@ -114,9 +139,68 @@
 
                     clearInterval(mask.timer)
                     mask.timer = setInterval(() => {
-                        let span
-                        span = mask.style[attr] + step
-                        mask.style[attr] = span + 'px'
+                        let span = parseInt(mask.style[attr]) + step
+                        if (step > 0) {
+                            if (span >= 0) {
+                                mask.style[attr] = 0
+                                clearInterval(mask.timer)
+                                mask.style[otherAttr] = 0;
+                            } else {
+                                mask.style[attr] = span + 'px'
+                            }
+                        } else {
+                            if (span <= 0) {
+                                mask.style[attr] = 0
+                                clearInterval(mask.timer)
+                                mask.style[otherAttr] = 0;
+                            } else {
+                                mask.style[attr] = span + 'px'
+                            }
+                        }
+                    }, 40)
+                }
+
+                // 动画出去
+                function maskOut(direction) {
+                    let attr, otherAttr, max, step
+                    // 如果鼠标从左边滑进来 我们要控制mask的marginLeft 值是imgBox.offsetWidth
+                    if (direction === 'left' || direction === 'right') {
+                        attr = 'marginLeft'
+                        otherAttr = 'marginTop'
+                        max = 'offsetWidth'
+                    } else {
+                        attr = 'marginTop'
+                        otherAttr = 'marginLeft'
+                        max = 'affsetHeight'
+                    }
+
+                    if (direction === 'top' || direction === 'left') {
+                        // 如果是从上面或者从左边划入的话 它的值是一个负值
+                        step = -15
+                    } else {
+                        step = 15
+                    }
+
+                    mask.style.marginLeft = mask.style.marginTop = 0
+
+                    clearInterval(mask.timer)
+                    mask.timer = setInterval(() => {
+                        let span = parseInt(mask.style[attr]) + step
+                        if (step > 0) {
+                            if (span >= imgBox[max]) {
+                                mask.style[attr] = imgBox[max] + 'px'
+                                clearInterval(mask.timer)
+                            } else {
+                                mask.style[attr] = span + 'px'
+                            }
+                        } else {
+                            if (span <= -imgBox[max]) {
+                                mask.style[attr] = -imgBox[max] + 'px'
+                                clearInterval(mask.timer)
+                            } else {
+                                mask.style[attr] = span + 'px'
+                            }
+                        }
                     }, 40)
                 }
             }
