@@ -12,7 +12,8 @@
         创建变量的6种方式中：var/function有变量提升，而let/const/class/import都不存在这个机制
 
         2.var允许重复声明，而let是不允许的
-        在相同的作用域中，
+        在相同的作用域中（或执行上下文中），如果使用var/function声明变量，并且重复声明，是不会有影响的（它不是每次都声明，声明一次之后再遇到就不会重复声明了）
+        但是使用let/const就不行，浏览器会校验当前作用域中是否存在这个变量了，如果已经存在了，则再次基于let等重新声明就会报错
         
          */
         /* 变量提升 */
@@ -32,13 +33,19 @@
         // console.log(a)
 
         /* 重复声明 */
-        var a = 12
-        var a = 13
-        console.log(a) // 13
+        // var a = 12
+        // var a = 13
+        // console.log(a) // 13
 
+        // let a = 12
+        // let a = 13
+        // console.log(a) // 报错  Identifier 'a' has already been declared
+
+        console.log(1) // 因为后面报错，所以不输出
         let a = 12
+        console.log(a) // 因为后面报错，所以不输出
         let a = 13
-        console.log(a) // 报错  Identifier 'a' has already been declared
+        console.log(a) // Uncaught SyntaxError: Identifier 'a' has already been declared
     </script>
 </body>
 </html>
