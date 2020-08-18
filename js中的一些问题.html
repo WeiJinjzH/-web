@@ -41,11 +41,14 @@
         // let a = 13
         // console.log(a) // 报错  Identifier 'a' has already been declared
 
-        console.log(1) // 因为后面报错，所以不输出
-        let a = 12
-        console.log(a) // 因为后面报错，所以不输出
-        let a = 13
-        console.log(a) // Uncaught SyntaxError: Identifier 'a' has already been declared
+        // console.log(1) // 因为后面报错，所以不输出
+        // let a = 12
+        // console.log(a) // 因为后面报错，所以不输出
+        // let a = 13
+        // console.log(a) // Uncaught SyntaxError: Identifier 'a' has already been declared
+        /* 在浏览器开辟栈内存供上下代码自上而下执行之前，不仅有变量提升操作，还有很多其他的操作=>“词法解析”或“词法检测”：
+        就是检测当前即将要执行的代码是否会出现语法错误，如果出现错误，代码将不会再执行（第一行都不执行）
+         */
     </script>
 </body>
 </html>
