@@ -52,10 +52,23 @@
 
 
         // 所谓重复是：不管之前通过什么办法，只要当前执行上下文中存在了这个变量，然后再用let/const等再重复声明变量就是语法错误
-        console.log(a)
-        var a = 12
-        let a = 13
-        console.log(a) // Uncaught SyntaxError: Identifier 'a' has already been declared
+        // console.log(a)
+        // var a = 12
+        // let a = 13
+        // console.log(a) // Uncaught SyntaxError: Identifier 'a' has already been declared
+
+
+        fn()
+        function fn() { console.log(1) }
+        fn()
+        function fn() { console.log(2) }
+        fn()
+        var fn = function() { console.log(3) } // 此行代码在变量提升阶段只声明了fn 还没有赋值
+        fn()
+        function fn() { console.log(4) }
+        fn()
+        function fn() { console.log(5) }
+        fn()
     </script>
 </body>
 </html>
