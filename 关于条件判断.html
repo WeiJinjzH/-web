@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+        * 全局作用域
+        * 1.变量提升
+        *   不管条件是否成立 都要进行变量提升
+        *   var a => 创建一个全局变量a => window.a
+        * 2.代码执行
+        */
+        console.log(a) // undefined
+        if (!('a' in window)) { // 'a' in window => true 
+            var a = 12 // 没有进入判断
+        }
+        console.log(a) // undefined
+    </script>
+</body>
+</html>
