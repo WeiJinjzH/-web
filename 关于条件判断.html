@@ -28,15 +28,45 @@
         *   但是在新版浏览器中，为了兼容ES6严谨的语法规范，条件中的函数在变量提升阶段只能提前声明，不能提前定义
         * 2.代码执行
         */
-        console.log(fn) // undefined 但是定义了fn
-        // fn() // Uncaught TypeError: fn is not a function
-        if ('fn' in window) {
-            fn() // 条件成立 进来后第一件事就是给fn赋值 然后再代码执行 结果为“哈哈哈”
-            function fn() {
-                console.log('哈哈哈')
+        // console.log(fn) // undefined 但是定义了fn
+        // // fn() // Uncaught TypeError: fn is not a function
+        // if ('fn' in window) {
+        //     fn() // 条件成立 进来后第一件事就是给fn赋值 然后再代码执行 结果为“哈哈哈”
+        //     function fn() {
+        //         console.log('哈哈哈')
+        //     }
+        // }
+        // fn() // 哈哈哈
+
+
+        /* 自执行函数 匿名函数->不能执行->立马执行（在后面加小括号)->语法不支持，所以加各种符号
+           自执行函数本身不走变量提升 因为它没有名字
+        */
+        // (function() {})()
+        // ~function() {}()
+        // !function() {}()
+        // +function() {}()
+        // -function() {}()
+
+
+        /* 
+          1.变量提升
+          2.代码执行
+            
+         */
+        f = function() { return true } // window.f
+        g = function() { return false }
+        ~function() {
+            // 形成一个私有作用域 也会变量提升
+            // 1.变量提升 function g
+            // 2.代码执行
+            if (g() && [] == ![]) { // Uncaught TypeError: g is not a function
+                f = function() { return false }
+                function g() { return true }
             }
-        }
-        fn() // 哈哈哈
+        }()
+        console.log(f())
+        console.log(g())
     </script>
 </body>
 </html>
