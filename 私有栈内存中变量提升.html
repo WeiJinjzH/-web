@@ -26,20 +26,33 @@
 
 
 
-        console.log(a, b, c)
-        var a = 12, b = 13, c = 14
-        function fn(a) {
-            /* 私有变量 */
-            // 在私有作用域中变量存储区存储的变量
-            // 1.函数中带var/function/const等的变量都是私有变量
-            // 2.形参变量也是私有变量
-            console.log(a, b, c)
-            a = 100 // 改的还是私有作用域里面的a
-            c = 200
-            console.log(a, b, c)
+        // console.log(a, b, c)
+        // var a = 12, b = 13, c = 14
+        // function fn(a) {
+        //     /* 私有变量 */
+        //     // 在私有作用域中变量存储区存储的变量
+        //     // 1.函数中带var/function/const等的变量都是私有变量
+        //     // 2.形参变量也是私有变量
+        //     console.log(a, b, c)
+        //     a = 100 // 改的还是私有作用域里面的a
+        //     c = 200
+        //     console.log(a, b, c)
+        // }
+        // b = fn(10) // 先把fn函数执行，传递实参10，把fn执行后的返回结果赋值给b，
+        // console.log(a, b, c)
+
+
+
+        var ary = [12, 23]
+        function fn(ary) {
+            console.log(ary)
+            ary[0] = 100 // 这里操作的都是私有变量
+            ary = [100]
+            ary[0] = 0
+            console.log(ary)
         }
-        b = fn(10) // 先把fn函数执行，传递实参10，把fn执行后的返回结果赋值给b，
-        console.log(a, b, c)
+        fn(ary)
+        console.log(ary)
     </script>
 </body>
 </html>
