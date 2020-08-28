@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 作用域查找机制关键点在于如何查找上级作用域
+        1.从函数创建开始，作用域链就已经指定好了
+        2.当前函数是在哪个作用域(N)创建的，那么函数执行形成的作用域(M)的上级作用域就是(N)，和函数在哪执行没有关系，和在哪创建有关系
+        */
+        var n = 1
+        function fn() {
+            var n = 2
+            function f() {
+                n--
+                console.log(n)
+            }
+            f()
+            return f
+        }
+        var x = fn()
+        x()
+        console.log(n)
+
+
+
+        var i = 0
+        function A() {
+            var i = 10
+            // x是在函数A执行的时候创建的
+            function x() {
+                console.log(i)
+            }
+            return x
+        }
+        var y = A() // y=x
+        y() // 输出10
+        function B() {
+            var i = 20
+            y()
+        }
+        B() // 输出10
+    </script>
+</body>
+</html>
