@@ -105,6 +105,23 @@
         1.保护（私有变量和外界没有必然联系）
         2.保存（形成不销毁的栈内存，里面的私有变量等信息保存下来）
          */
+
+
+
+        var i = 20
+        function fn() {
+            i-=2
+            return function(n) {
+                console.log((++i) -n)
+            }
+        }
+        var f = fn()
+        f(1)
+        f(2)
+        fn()(3)
+        fn()(4)
+        f(5)
+        console.log(i)
     </script>
 </body>
 </html>
